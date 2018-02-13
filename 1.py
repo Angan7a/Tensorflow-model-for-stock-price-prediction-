@@ -50,11 +50,11 @@ y_test = data_test[:, 0]
 
 
 # Model architecture parameters
-n_stocks = 34
-n_neurons_1 = 128
-n_neurons_2 = 64
-n_neurons_3 = 32
-n_neurons_4 = 16
+n_stocks = 1
+n_neurons_1 = 1
+n_neurons_2 = 1
+n_neurons_3 = 1
+n_neurons_4 = 1
 n_target = 1
 
 # Placeholder
@@ -155,9 +155,26 @@ for e in range(epochs):
 
 #mse_final = net.run(mse, feed_dict={X: X_test, Y: y_test})
 
-pred = net.run(out, feed_dict={X: X_test})
-print(pred*(maxE - minE) + minE)
-print(y_test*(maxE - minE) + minE)
+pred = net.run(out, feed_dict={X: X_train})
+z = 0
+n = 0
+for i in range(pred.size-1):
+	pr = ((pred[0][i]*(maxE - minE) + minE) - (pred[0][i+1]*(maxE - minE) + minE))
+	r = ((y_train[i]*(maxE - minE) + minE) -(y_train[i+1]*(maxE - minE) + minE))
+	if (pr<0) and (r<0):
+		z = z + 1
+	else:
+		if (pr>0) and (r>0):
+			z = z + 1
+	 	else:
+			n = n + 1
+
+print(pred.size)
+print(z)
+print(n)
+
+#print(pred*(maxE - minE) + minE)
+#print(y_test*(maxE - minE) + minE)
 
 #print(y_test)
 
