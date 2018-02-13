@@ -23,8 +23,6 @@ p = data.shape[1]
 # Make data a numpy array
 data = data.values
 
-print(data)
-
 
 # Training and test data
 train_start = 0
@@ -41,12 +39,15 @@ scaler.fit(data_train)
 data_train = scaler.transform(data_train)
 data_test = scaler.transform(data_test)
 
+minE = (scaler.data_min_[0])
+maxE = (scaler.data_max_[0])
 
 # Build X and y
 X_train = data_train[:, 1:]
 y_train = data_train[:, 0]
 X_test = data_test[:, 1:]
 y_test = data_test[:, 0]
+
 
 # Model architecture parameters
 n_stocks = 34
@@ -111,12 +112,12 @@ net = tf.Session()
 net.run(tf.global_variables_initializer())
 
 # Setup interactive plot
-plt.ion()
-fig = plt.figure()
-ax1 = fig.add_subplot(111)
-line1, = ax1.plot(y_test)
-line2, = ax1.plot(y_test*0.5)
-plt.show()
+#plt.ion()
+#fig = plt.figure()
+#ax1 = fig.add_subplot(111)
+#line1, = ax1.plot(y_test)
+#line2, = ax1.plot(y_test*0.5)
+#plt.show()
 
 
 # Number of epochs and batch size
@@ -138,17 +139,26 @@ for e in range(epochs):
         # Run optimizer with batch
         net.run(opt, feed_dict={X: batch_x, Y: batch_y})
 
+
         # Show progress
-        if np.mod(i, 5) == 0:
+#        if np.mod(i, 5) == 0:
             # Prediction
-            pred = net.run(out, feed_dict={X: X_test})
-            line2.set_ydata(pred)
-            plt.title('Epoch ' + str(e) + ', Batch ' + str(i))
-            file_name = 'img/epoch_' + str(e) + '_batch_' + str(i) + '.jpg'
-            plt.savefig(file_name)
-            plt.pause(0.1)
+ #           pred = net.run(out, feed_dict={X: X_test})
+#	    print(pred*(maxE - minE) + minE)
+            #line2.set_ydata(pred)
+            #plt.title('Epoch ' + str(e) + ', Batch ' + str(i))
+            #file_name = 'img/epoch_' + str(e) + '_batch_' + str(i) + '.jpg'
+            #plt.savefig(file_name)
+            #plt.pause(0.1)
 
 # Print final MSE after Training
-mse_final = net.run(mse, feed_dict={X: X_test, Y: y_test})
-print(mse_final)
+
+#mse_final = net.run(mse, feed_dict={X: X_test, Y: y_test})
+
+pred = net.run(out, feed_dict={X: X_test})
+print(pred*(maxE - minE) + minE)
+print(y_test*(maxE - minE) + minE)
+
+#print(y_test)
+
 
