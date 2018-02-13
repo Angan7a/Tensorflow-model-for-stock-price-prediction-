@@ -3,14 +3,14 @@ import numpy as np
 import tensorflow as tf
 import matplotlib.pyplot as plt
 
-#data = pd.read_csv('k.csv')
+data = pd.read_csv('k.csv')
 
 
-data = pd.read_csv('data_stocks.csv')
+#data = pd.read_csv('data_stocks.csv')
 
 # Drop date variable
-#data = data.drop(['D','T','Z'], 1)
-data = data.drop(['DATE'], 1)
+data = data.drop(['data'], 1)
+#data = data.drop(['DATE'], 1)
 
 
 
@@ -23,7 +23,7 @@ p = data.shape[1]
 # Make data a numpy array
 data = data.values
 
-#print(data)
+print(data)
 
 
 # Training and test data
@@ -49,11 +49,11 @@ X_test = data_test[:, 1:]
 y_test = data_test[:, 0]
 
 # Model architecture parameters
-n_stocks = 500
-n_neurons_1 = 1024
-n_neurons_2 = 512
-n_neurons_3 = 256
-n_neurons_4 = 128
+n_stocks = 34
+n_neurons_1 = 128
+n_neurons_2 = 64
+n_neurons_3 = 32
+n_neurons_4 = 16
 n_target = 1
 
 # Placeholder
